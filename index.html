@@ -163,6 +163,8 @@ function render(){
   if(section==='learning'){app.innerHTML=currentSatsSub?renderSatsSub():renderSatsMain();return}
   if(section){app.innerHTML=renderSection();return}
   app.innerHTML=renderMain();
+  const sb=document.getElementById('speechBubble');
+  if(sb)sb.textContent=speech;
 }
 
 function renderSetup(){
@@ -185,29 +187,31 @@ function renderMain(){
     {icon:'\u{1F4D6}',label:'Story Studio',key:'story'},{icon:'\u{1F31F}',label:'Squish Secrets',key:'secrets'},
     {icon:'\u{2728}',label:'Daily Glow',key:'quest'},{icon:'\u{1F4DA}',label:'SATs Revision',key:'learning'}
   ];
-  const needs=[
-    {key:'hunger',icon:'\u{1F36A}',label:'Snack',msg:"Yummy! Thank you for the snack! \u{1F36A}"},
-    {key:'play',icon:'\u{1F380}',label:'Play',msg:"Wheee! That was so fun! \u{1F380}"},
-    {key:'rest',icon:'\u{1F4A4}',label:'Rest',msg:"*cosy yawn* That was a lovely rest! \u{1F4A4}"},
-    {key:'love',icon:'\u{1F495}',label:'Love',msg:"I love you so much! *biggest squish hug* \u{1F495}"}
+  const needsData=[
+    {key:'hunger',icon:'\u{1F36A}',label:'Snack'},
+    {key:'play',icon:'\u{1F380}',label:'Play'},
+    {key:'rest',icon:'\u{1F4A4}',label:'Rest'},
+    {key:'love',icon:'\u{1F495}',label:'Love'}
   ];
   return '<div class="sparkle-counter">\u{2728} '+ud.sparkles+'</div>'
     +(ud.streak>1?'<div class="streak-badge">\u{1F525} '+ud.streak+'</div>':'')
     +'<div class="char-row">'
-    +'<div class="char-wrap" onclick="setSpeech(pick(squishSayings));addSparkles(1)"><span class="char-emoji">\u{1F9F8}</span><div class="char-name">'+name+'</div></div>'
+    +'<div class="char-wrap" onclick="squishTap()"><span class="char-emoji">\u{1F9F8}</span><div class="char-name">'+name+'</div></div>'
     +'<div class="char-wrap" onclick="mentorTap()"><span class="mentor-emoji">\u{1F484}</span><div class="char-name">Glam Mentor</div></div>'
     +'</div>'
-    +'<div class="bubble">'+speech+'</div>'
+    +'<div class="bubble" id="speechBubble"></div>'
     +'<div class="hint">Your cosy corner, always here for you</div>'
     +'<div class="needs-card"><div class="needs-title">Take care of '+name+' \u{1F495}</div><div class="needs-row">'
-    +needs.map(n=>'<div class="need-item" onclick="careAction(\''+n.key+'\',\''+esc(n.msg)+'\')"><div class="need-icon">'+n.icon+'</div><div class="need-label">'+n.label+'</div><div class="need-bar"><div class="need-fill" style="width:'+ud.needs[n.key]+'%"></div></div></div>').join('')
+    +needsData.map(n=>'<div class="need-item" onclick="careAction(\''+n.key+'\')"><div class="need-icon">'+n.icon+'</div><div class="need-label">'+n.label+'</div><div class="need-bar"><div class="need-fill" style="width:'+ud.needs[n.key]+'%"></div></div></div>').join('')
     +'</div></div>'
     +'<div class="act-grid">'+acts.map(a=>'<div class="act-card" onclick="openSection(\''+a.key+'\')"><div class="act-icon">'+a.icon+'</div><div class="act-label">'+a.label+'</div></div>').join('')+'</div>'
     +'<div class="footer">Made with \u{1F495} for you<br>Your data stays on your device</div>';
 }
 
+const careMsgs={hunger:"Yummy! Thank you for the snack! \u{1F36A}",play:"Wheee! That was so fun! \u{1F380}",rest:"*cosy yawn* That was a lovely rest! \u{1F4A4}",love:"I love you so much! *biggest squish hug* \u{1F495}"};
+function squishTap(){speech=pick(squishSayings);addSparkles(1)}
 function mentorTap(){speech='\u{1F484} "'+pick(mentorQuotes)+'"';addSparkles(1)}
-function careAction(type,msg){ud.needs[type]=Math.min(100,ud.needs[type]+15);ud.sparkles++;save();speech=msg;render()}
+function careAction(type){ud.needs[type]=Math.min(100,ud.needs[type]+15);ud.sparkles++;save();speech=careMsgs[type];render()}
 
 function openSection(name){
   section=name;worrySent=false;
