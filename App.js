@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width, height } = Dimensions.get('window');
 
-const squidgeImg = require('./assets/squidge.png');
+const squidgeImg = { uri: 'https://raw.githubusercontent.com/harnessthespark/squish-sparkle/master/assets/squidge.png' };
 
 // ─── DATA ────────────────────────────────────────────────────────
 const puzzleWords = [
