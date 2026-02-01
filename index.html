@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="My Cosy Corner">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFE4EC">
+<title>My Cosy Corner</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#FFE4EC;min-height:100vh;overflow-x:hidden}
+.app{max-width:420px;margin:0 auto;padding:16px;padding-bottom:40px;position:relative;z-index:1}
+
+.sparkle-bg{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;z-index:0}
+.sparkle-float{position:absolute;animation:floatUp linear infinite;opacity:0}
+@keyframes floatUp{0%{transform:translateY(110vh) rotate(0deg);opacity:0}10%{opacity:.6}80%{opacity:.6}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.blob1{top:5%;left:-30px;width:180px;height:180px;background:rgba(255,182,193,.2);animation:blobPulse 8s ease-in-out infinite}
+.blob2{top:45%;right:-40px;width:150px;height:150px;background:rgba(201,160,220,.15);animation:blobPulse 10s ease-in-out infinite 2s}
+.blob3{bottom:10%;left:-20px;width:120px;height:120px;background:rgba(255,215,0,.1);animation:blobPulse 7s ease-in-out infinite 4s}
+@keyframes blobPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+.setup-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:30px;position:relative;z-index:1}
+.setup-title{font-size:26px;font-weight:bold;color:#8B4A6B;margin-bottom:8px}
+.setup-sub{font-size:15px;color:#B07A9E;margin-top:8px;margin-bottom:25px}
+.setup-input{width:80%;padding:14px;border:3px solid #FFB6C1;border-radius:15px;font-size:16px;text-align:center;background:#fff;color:#8B4A6B;outline:none}
+.setup-input::placeholder{color:#cba}
+.squidge-img{width:140px;height:120px;object-fit:contain;margin-bottom:12px}
+.squidge-main{width:120px;height:100px;object-fit:contain;margin-bottom:8px}
+
+.greet-wrap{text-align:center;margin-top:40px;margin-bottom:20px}
+.greet-txt{font-size:24px;font-weight:bold;color:#8B4A6B}
+.hint{text-align:center;color:#B8A0C8;font-size:13px;margin-top:6px}
+
+.act-grid{display:flex;flex-wrap:wrap;justify-content:space-between;margin-top:16px}
+.act-card{width:48%;background:rgba(255,255,255,.85);border-radius:18px;padding:18px;text-align:center;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.07);cursor:pointer;transition:transform .15s;backdrop-filter:blur(4px)}
+.act-card:active{transform:scale(.95)}
+.act-icon-wrap{width:52px;height:52px;background:rgba(255,105,180,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 4px}
+.act-icon{font-size:28px}
+.act-label{font-size:13px;font-weight:600;color:#8B4A6B}
+
+.btn-pink{background:#FF69B4;border:none;border-radius:14px;padding:14px 24px;color:#fff;font-weight:bold;font-size:15px;cursor:pointer;margin-top:14px;width:100%;transition:transform .15s}
+.btn-pink:active{transform:scale(.95)}
+.btn-purple{background:#9B59B6;border:none;border-radius:14px;padding:14px 24px;color:#fff;font-weight:bold;font-size:15px;cursor:pointer;margin-top:14px;width:100%;transition:transform .15s}
+.btn-purple:active{transform:scale(.95)}
+.back-btn{margin-bottom:10px;padding:8px 14px;background:rgba(255,255,255,.85);border:none;border-radius:12px;color:#8B4A6B;font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+
+.sec-header{text-align:center;margin-bottom:16px}
+.sec-title{font-size:20px;font-weight:bold;color:#8B4A6B;display:inline}
+.sec-divider{display:flex;align-items:center;justify-content:center;gap:8px}
+.sec-line{height:2px;width:30px;background:#FFB6C1;border-radius:1px}
+.sub-txt{text-align:center;color:#8B4A6B;margin-bottom:12px;font-size:14px}
+.card{background:rgba(255,255,255,.85);border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.06);backdrop-filter:blur(4px)}
+
+.mood-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.mood-btn{background:rgba(255,255,255,.85);border:2px solid #FFB6C1;border-radius:14px;padding:12px;text-align:center;min-width:70px;cursor:pointer;transition:transform .15s}
+.mood-btn:active{transform:scale(.9)}
+.mood-emoji{font-size:28px}
+.mood-lbl{font-size:11px;color:#8B4A6B;margin-top:4px}
+.mood-resp{font-size:9px;color:#B8A0C8;margin-top:2px}
+
+.text-area{width:100%;border:2px solid #C9A0DC;border-radius:14px;padding:14px;font-size:15px;background:#fff;min-height:90px;resize:vertical;font-family:inherit;outline:none;color:#5D4E37}
+.text-area::placeholder{color:#B8A0C8}
+.worry-msg{font-size:16px;color:#8B4A6B;text-align:center;margin-top:14px;line-height:24px}
+
+.breath-txt{font-size:22px;font-weight:bold;color:#5B7DB1;text-align:center;min-height:34px}
+.breath-dots{display:flex;justify-content:center;gap:10px;margin:16px 0}
+.dot{width:14px;height:14px;border-radius:7px;background:#ccc;transition:all .3s}
+.dot.done{background:#5B7DB1;transform:scale(1.2)}
+
+.hint-txt{text-align:center;color:#666;font-style:italic;margin-bottom:12px}
+.answer-row{display:flex;justify-content:center;gap:4px;margin-bottom:14px}
+.ans-slot{width:32px;height:38px;background:#f0f0f0;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:bold}
+.letter-row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.letter-tile{width:38px;height:38px;background:#fff;border:2px solid #9B59B6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:bold;color:#9B59B6;cursor:pointer;transition:transform .15s}
+.letter-tile:active{transform:scale(.9)}
+.letter-tile.used{opacity:.25;pointer-events:none}
+.result-txt{text-align:center;font-size:15px;font-weight:bold;color:#8B4A6B;margin-top:12px}
+
+.story-start{font-size:14px;color:#5D4E37;line-height:22px;font-style:italic;margin-bottom:12px}
+
+.footer-wrap{text-align:center;margin-top:20px}
+.footer{color:#8B4A6B;opacity:.6;font-size:12px;line-height:18px}
+</style>
+</head>
+<body>
+
+<div class="sparkle-bg" id="sparkleBg"></div>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="app" id="app"></div>
+<script>
+const STORAGE_KEY='cosy-corner-app';
+const SQUIDGE_URL='https://raw.githubusercontent.com/harnessthespark/squish-sparkle/master/assets/squidge.png';
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+// Floating sparkles
+(function(){
+  const chars=['✨','⭐','💖','🌟','💫','🦋','🌸'];
+  const bg=document.getElementById('sparkleBg');
+  for(let i=0;i<12;i++){
+    const s=document.createElement('div');
+    s.className='sparkle-float';
+    s.textContent=chars[i%chars.length];
+    s.style.left=Math.random()*100+'%';
+    s.style.fontSize=(10+Math.random()*14)+'px';
+    s.style.animationDuration=(6+Math.random()*8)+'s';
+    s.style.animationDelay=(Math.random()*8)+'s';
+    bg.appendChild(s);
+  }
+})();
+
+function secHeader(icon,title){
+  return '<div class="sec-header"><div class="sec-divider"><div class="sec-line"></div><span class="sec-title">'+icon+' '+title+'</span><div class="sec-line"></div></div></div>';
+}
+
+const puzzleWords=[{word:"GLITTER",hint:"Sparkly stuff for crafts"},{word:"SPARKLE",hint:"To shine brightly"},{word:"FLUFFY",hint:"Soft and cuddly"},{word:"CUDDLE",hint:"A warm, cosy hug"},{word:"SHIMMER",hint:"A soft, pretty glow"},{word:"GLOW",hint:"To shine softly"},{word:"COSY",hint:"Warm and comfortable"},{word:"SHINE",hint:"To be bright and glossy"},{word:"BEAUTY",hint:"Looking and feeling lovely"},{word:"CHARM",hint:"Something lovely and delightful"},{word:"SNUGGLE",hint:"To cuddle up close"}];
+
+const storyStarters=["It was a cosy day when a tiny glittering envelope appeared on the windowsill...","At the sleepover, something magical appeared in the garden...","A mysterious pink door appeared that had never been there before. Behind it was...","One sparkly morning, a wish could be granted. The decision was to...","A map to the legendary Glitter Grotto was found...","Everything had turned pink and sparkly overnight...","The glitter jar spilled and something magical started to grow...","A shooting star landed in the garden, and out stepped..."];
+
+const moods=[{key:'happy',emoji:'😊',label:'Happy',response:'Yay! That makes me so happy too! 🎉'},{key:'calm',emoji:'😌',label:'Calm',response:"That's so peaceful 🌸"},{key:'worried',emoji:'😟',label:'Worried',response:"*big hug* I'm here for you 💕"},{key:'sad',emoji:'😢',label:'Sad',response:"It's okay to feel this way 💕"},{key:'angry',emoji:'😠',label:'Angry',response:"Those feelings are totally valid. I'm here 💕"},{key:'tired',emoji:'😴',label:'Tired',response:'Rest is so important. Try calm breathing? 💤'},{key:'anxious',emoji:'😰',label:'Anxious',response:"Moment by moment, you've got this 🌈"},{key:'excited',emoji:'🤩',label:'Excited',response:'Ooh exciting! That energy is amazing! ✨'}];
+
+let ud,section=null;
+const defaultData={userName:'',setupComplete:false};
+
+function load(){
+  try{const d=localStorage.getItem(STORAGE_KEY);ud=d?{...defaultData,...JSON.parse(d)}:{...defaultData}}catch(e){ud={...defaultData}}
+  render();
+}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(ud))}catch(e){}}
+
+let worrySent=false;
+let puzzle=null,puzzleLetters=[],puzzleAnswer=[],puzzleUsed=[],puzzleResult='';
+let storySt='';
+let breathPhase='',breathCount=0,breathing=false;
+
+function render(){
+  const app=document.getElementById('app');
+  if(!ud.setupComplete){app.innerHTML=renderSetup();return}
+  if(section){app.innerHTML=renderSection();return}
+  app.innerHTML=renderMain();
+}
+
+function renderSetup(){
+  return '<div class="setup-wrap"><img src="'+SQUIDGE_URL+'" class="squidge-img" alt="Squidge"><div class="setup-title">🌸 My Cosy Corner 🌸</div><div class="setup-sub">What\'s your name?</div><input class="setup-input" id="nameInput" placeholder="Your name..." maxlength="15"><button class="btn-pink" onclick="completeSetup()">Let\'s Go! ✨</button></div>';
+}
+
+function completeSetup(){
+  const v=document.getElementById('nameInput').value.trim();
+  if(!v)return;
+  ud.userName=v;ud.setupComplete=true;save();render();
+}
+
+function renderMain(){
+  const name=esc(ud.userName||'You');
+  const acts=[
+    {icon:'🌈',label:'How are you?',key:'mood'},
+    {icon:'☁️',label:'Worry Pillow',key:'worry'},
+    {icon:'🌸',label:'Calm Breathing',key:'breathing'},
+    {icon:'💎',label:'Word Sparkle',key:'word'},
+    {icon:'📖',label:'Story Studio',key:'story'}
+  ];
+  return '<div class="greet-wrap"><img src="'+SQUIDGE_URL+'" class="squidge-main" alt="Squidge"><div class="greet-txt">Hi '+name+' 🌸</div><div class="hint">Your cosy corner, always here for you</div></div>'
+    +'<div class="act-grid">'+acts.map(a=>'<div class="act-card" onclick="openSection(\''+a.key+'\')"><div class="act-icon-wrap"><div class="act-icon">'+a.icon+'</div></div><div class="act-label">'+a.label+'</div></div>').join('')+'</div>'
+    +'<div class="footer-wrap"><div class="footer">Made with 💕 for you<br>Your data stays on your device</div></div>';
+}
+
+function openSection(name){
+  section=name;worrySent=false;
+  if(name==='word')loadNewPuzzle();
+  if(name==='story')loadNewStory();
+  render();
+}
+function goBack(){section=null;render()}
+
+function renderSection(){
+  let c='';
+  if(section==='mood') c=renderMood();
+  else if(section==='worry') c=renderWorry();
+  else if(section==='breathing') c=renderBreathing();
+  else if(section==='word') c=renderWord();
+  else if(section==='story') c=renderStory();
+  return '<button class="back-btn" onclick="goBack()">← Back</button>'+c;
+}
+
+// Mood
+function renderMood(){
+  return secHeader('🌈','How are you feeling?')+'<div class="mood-grid">'+moods.map(m=>'<div class="mood-btn" onclick="selectMood(\''+m.key+'\')"><div class="mood-emoji">'+m.emoji+'</div><div class="mood-lbl">'+m.label+'</div><div class="mood-resp">'+esc(m.response)+'</div></div>').join('')+'</div>';
+}
+function selectMood(key){
+  setTimeout(()=>{section=null;render()},1500);
+}
+
+// Worry Pillow
+function renderWorry(){
+  const name=esc(ud.userName);
+  if(worrySent) return '<div style="text-align:center;padding:30px"><div style="font-size:50px;margin-bottom:12px">☁️</div><div class="worry-msg">Your worry is safe now.<br>It\'s okay. You can let it go. 💕</div><button class="btn-pink" onclick="worrySent=false;render()">Write Another</button></div>';
+  return secHeader('☁️','Worry Pillow')+'<div class="sub-txt">Write it down and let it go. This is your safe space.</div><textarea class="text-area" id="worryBox" placeholder="Let it all out... I\'m listening..."></textarea><button class="btn-purple" onclick="sendWorry()">💕 Let It Go</button>';
+}
+function sendWorry(){
+  const v=document.getElementById('worryBox').value.trim();
+  if(!v)return;
+  worrySent=true;render();
+}
+
+// Breathing
+function renderBreathing(){
+  return secHeader('🌸','Calm Breathing')+'<div style="text-align:center;margin:15px 0;font-size:60px">🌸</div><div class="breath-txt">'+(breathPhase||'Ready when you are!')+'</div><div class="breath-dots">'+[0,1,2,3].map(i=>'<div class="dot'+(breathCount>i?' done':'')+'"></div>').join('')+'</div><button class="btn-pink" onclick="startBreathing()" '+(breathing?'disabled':'')+'>'+(breathing?'Breathing...':'Start Breathing 🌸')+'</button>';
+}
+function startBreathing(){if(breathing)return;breathing=true;breathCount=0;render();doBreath(0)}
+function doBreath(c){
+  if(c>=4){breathPhase='Well done! 🌸';breathing=false;render();return}
+  breathPhase='Breathe in... 🌸';render();
+  setTimeout(()=>{breathPhase='Hold... ✨';render()},3000);
+  setTimeout(()=>{breathPhase='Breathe out... 💨';render()},5000);
+  setTimeout(()=>{breathCount=c+1;doBreath(c+1)},8000);
+}
+
+// Word Sparkle
+function loadNewPuzzle(){const p=pick(puzzleWords);puzzle=p;puzzleLetters=shuffle(p.word.split(''));puzzleAnswer=[];puzzleUsed=[];puzzleResult=''}
+function renderWord(){
+  if(!puzzle)return'';
+  return secHeader('💎','Word Sparkle')+'<div class="card"><div class="hint-txt">Hint: '+esc(puzzle.hint)+'</div><div class="answer-row">'+puzzle.word.split('').map((_,i)=>'<div class="ans-slot">'+(puzzleAnswer[i]||'')+'</div>').join('')+'</div><div class="letter-row">'+puzzleLetters.map((l,i)=>'<div class="letter-tile'+(puzzleUsed.includes(i)?' used':'')+'" onclick="tapLetter(\''+l+'\','+i+')">'+l+'</div>').join('')+'</div>'+(puzzleResult?'<div class="result-txt">'+puzzleResult+'</div>':'')+'</div><button class="btn-purple" onclick="loadNewPuzzle();render()">New Word 💎</button>';
+}
+function tapLetter(l,i){
+  if(puzzleUsed.includes(i))return;
+  puzzleAnswer.push(l);puzzleUsed.push(i);
+  if(puzzleAnswer.length===puzzle.word.length){
+    if(puzzleAnswer.join('')===puzzle.word){puzzleResult='🎉 Sparkling! You got it!'}
+    else puzzleResult='The word was '+puzzle.word+'. Try again! 💪';
+  }
+  render();
+}
+
+// Story Studio
+function loadNewStory(){storySt=pick(storyStarters)}
+function renderStory(){
+  return secHeader('📖','Story Studio')+'<div class="card"><div class="story-start">'+esc(storySt)+'</div><textarea class="text-area" id="storyBox" placeholder="Continue the story..."></textarea></div><button class="btn-purple" onclick="loadNewStory();render()">New Story 📖</button>';
+}
+
+load();
+</script>
+</body>
+</html>
